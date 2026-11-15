@@ -1,6 +1,6 @@
 # Migration from LazarusForge
 
-**Source:** LazarusForge 1.38 (head `62d831e5`, 2026-11-13). **Reviewed for this draft:** `Admin/Auditor_Protocols.md` (read in full for the sections below; headings only for the rest) and `Automation/README.md`. **Not yet reviewed:** the other audit documents, listed under "Untriaged".
+**Package:** AuditBot V0.0.2 draft. **Source:** LazarusForge 1.38 (head `62d831e5`, 2026-11-13). **Reviewed for this draft:** `Admin/Auditor_Protocols.md` (read in full for the sections below; headings only for the rest) and `Automation/README.md`. **Not yet reviewed:** the other audit documents, listed under "Untriaged".
 
 ## Where each piece went
 
@@ -40,7 +40,8 @@ LazarusForge already has three phases, but they split by posture: **Audit, Adver
 | LazarusForge tool | Status |
 |---|---|
 | `audit_lib.py` (`Finding` class) | Reimplemented as the finding collector in `tools/mechanical.py` |
-| `integrity_check.py` | Checks M-02 to M-06 reimplemented generically. **Not ported:** Routing.md coverage pass, cross-file duplicate sidecar IDs, version-citation drift, T1 size census queue |
+| `integrity_check.py` | Checks M-02 to M-07 reimplemented generically (cross-file duplicate heading IDs now included, as a minor lead). **Not ported:** Routing.md coverage pass, version-citation drift, T1 size census queue |
+| (new, not from LazarusForge) | `tools/verify_findings.py`: citation verifier, added in V0.0.2 after review |
 | `AUDIT_HARNESS.py` (50 KB) | Not ported; tied to LazarusForge's GitHub fetch and alias map |
 | `cold_session_bundler.py`, `Admin/BATTERY_SEED.md` | Candidates for V0.0.2, for phase 3 independence. Not reviewed in detail |
 | `parser.py`, `coverage_ledger_regen.py`, Colab launchers | Not ported |
@@ -52,8 +53,9 @@ LazarusForge already has three phases, but they split by posture: **Audit, Adver
 
 ## What I checked on the draft tooling
 
-- `tools/mechanical.py` ran on the LazarusForge 1.38 tree: 95 files in scope, 0 critical, 82 major, 39 minor, 10 info. Output was byte-identical across two runs. Unit tests pass.
-- LazarusForge's own `integrity_check.py`, run offline on the same tree, agrees on the Ethical Anchor check: no mismatch among the 95 in-scope files. Its three constitution criticals are in audit reports outside this profile's scope. It also reports a cross-file duplicate ID (GOV-007) that M-05 does not look for.
-- The major findings are mostly M-04 leads. I did not adjudicate them. Twenty point into `Archive/`. At least one is historical narrative about the relocation itself (`Admin/Governance_Charter.md` line 1353); others may be stale citations. That judgment belongs to phase 2.
-- Run on itself with a bare profile, `tools/mechanical.py` finds no critical issues. Its 18 findings are references to LazarusForge files and to generated output files, all intentional here.
+- `tools/mechanical.py` ran on the LazarusForge 1.38 tree: 95 files in scope, 0 critical, 82 major, 43 minor, 10 info (exit code 3). Output is byte-identical across runs. 26 unit tests pass.
+- LazarusForge's own `integrity_check.py`, run offline on the same tree, agrees on the Ethical Anchor check: no mismatch among the 95 in-scope files. Its three constitution criticals are in audit reports outside this profile's scope. It also reports a cross-file duplicate ID (GOV-007) that falls outside this profile's scope, because one copy is a sidecar under `Admin/ALogs/`.
+- The major findings are M-02 (36) and M-04 (46) leads. I did not adjudicate them. Twenty M-04 leads point into `Archive/`. At least one is historical narrative about the relocation itself (`Admin/Governance_Charter.md` line 1353); others may be stale citations. That judgment belongs to phase 2.
+- Run on itself (`profiles/auditbot_self.json`, fixtures excluded), the tool finds nothing.
+- `tools/verify_findings.py` on LazarusForge: of three trial citations (one real, one with an invented quote, one to a nonexistent file), it verified the real one and rejected the other two.
 - Rule text in `CHARTER.md` and the phase files is condensed from LazarusForge. It has not been compared line by line, which is the review I would ask other agents for.
