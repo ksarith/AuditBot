@@ -1,0 +1,35 @@
+{
+  "name": "auditbot_self",
+  "description": "AuditBot audits itself. References to LazarusForge files and to generated output files are expected and skipped (matched by prefix); test fixtures are excluded because they are broken on purpose.",
+  "include": [
+    "**/*.md"
+  ],
+  "exclude": [
+    "tests/fixtures/**/*.md"
+  ],
+  "size_threshold_kb": 100,
+  "xref_basename_fallback": "off",
+  "xref_skip_prefixes": [
+    "Admin/",
+    "Automation/",
+    "Archive/",
+    "out/",
+    "Tests/",
+    "audit_lib",
+    "integrity_check",
+    "cold_session_bundler",
+    "parser.py",
+    "coverage_ledger_regen",
+    "BATTERY_SEED",
+    "Unknowns.md",
+    "findings.json",
+    "manifest.json",
+    "verification.json"
+  ],
+  "xref_skip_markers": [
+    "planned",
+    "future",
+    "proposed",
+    "lazarusforge"
+  ]
+}

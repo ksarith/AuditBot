@@ -1,0 +1,10 @@
+{
+  "name": "generic_docs",
+  "description": "Minimal profile for a documentation repository: every Markdown file, no required sections, strict name resolution.",
+  "include": [
+    "**/*.md"
+  ],
+  "exclude": [],
+  "size_threshold_kb": 100,
+  "xref_basename_fallback": "off"
+}

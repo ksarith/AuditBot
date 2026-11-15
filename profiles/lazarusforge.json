@@ -28,5 +28,7 @@
     "Audits/",
     ".github/",
     "Decision_Brief_"
-  ]
+  ],
+  "xref_basename_fallback": "unique",
+  "id_cross_file_ignore": []
 }
