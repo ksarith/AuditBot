@@ -1,0 +1,32 @@
+{
+  "name": "lazarusforge",
+  "description": "Settings for auditing a LazarusForge release tree. Approximates LazarusForge's Template Exemptions; findings are leads, not verdicts. xref_skip_prefixes lists targets expected to live outside the audited tree (the VibesSandbox wrapper, GitHub config).",
+  "include": [
+    "Admin/*.md",
+    "Architecture/*.md",
+    "Operations/*.md",
+    "Challenges/*.md",
+    "Tests/*.md"
+  ],
+  "exclude": [],
+  "required_sections": [
+    "## File State",
+    "## Scope Boundary",
+    "## File Purpose"
+  ],
+  "fixed_fields": {
+    "Ethical Anchor": "Attempt to do no harm. Defer to Ethical_Constraints.md if present."
+  },
+  "size_threshold_kb": 100,
+  "xref_skip_markers": [
+    "planned",
+    "future",
+    "proposed"
+  ],
+  "xref_skip_prefixes": [
+    "Maintenance/",
+    "Audits/",
+    ".github/",
+    "Decision_Brief_"
+  ]
+}
