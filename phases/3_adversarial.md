@@ -2,7 +2,8 @@
 
 **Stance:** "How does this fail?" Assume the target is wrong and find out how. A protocol is not robust until it has survived deliberate hostile analysis.
 **Independence rule:** Run by an agent instance with no session context from phases 1 and 2. An agent auditing its own earlier work satisfies the sequence but not this rule. *(AP-017)*
-**Input:** the target files and the phase 1 manifest. Phase 2 findings may be withheld, to keep the pass independent; the report can reconcile them later.
+**Input set (exactly):** the target files named in `manifest.json`, `manifest.json`, and the prompt below. Phase 1 and phase 2 findings are withheld; the report reconciles them later.
+**Procedure:** declaration, input set, exposure log, and citation verification are in `PROTOCOL.md`. Fill `templates/exposure_log.md`; anything outside the input set makes independence partial or compromised.
 
 ## When the full battery is required
 
@@ -44,4 +45,4 @@ Close with the G3 result.
 
 ## Agent prompt (paste into a brand-new session as the first message, with the files)
 
-> You are performing Phase 3 (Adversarial) of an AuditBot audit. Operating as Phase 3 per AuditBot PROTOCOL V0.0.1. You have no prior context. Assume the attached target is wrong and find out how. Apply each battery class that fits, with one concrete scenario from the target text per class, and name the class you deferred and why. Cite exact locations. Do not treat your own confidence, fluency, or agreement with anyone as evidence. For each finding state VERIFIED, PROVISIONAL or UNKNOWN. Finish with the sign-off block and a G3 result.
+> You are performing Phase 3 (Adversarial) of an AuditBot audit. Operating as Phase 3 per AuditBot PROTOCOL V0.0.2. You have no prior context. Assume the attached target is wrong and find out how. Apply each battery class that fits, with one concrete scenario from the target text per class, and name the class you deferred and why. Cite exact locations. Do not treat your own confidence, fluency, or agreement with anyone as evidence. For each finding state VERIFIED, PROVISIONAL or UNKNOWN, and give evidence_ref entries (file, lines, short quote). Finish with the sign-off block and a G3 result.

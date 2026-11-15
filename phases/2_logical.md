@@ -33,8 +33,8 @@ Items 1 to 3 and 8 apply to physical designs; skip them for other targets and sa
 
 ## Output
 
-Findings per `templates/finding.md`. Close with the G1, G2, G4 and G6 results. Sign off by declaring the phase closed.
+Findings per `templates/finding.md`, each with `evidence_ref` or a `no_evidence_reason`. Adjudicate every phase 1 major or critical finding (`P2-ADJ-nnn`, see `PROTOCOL.md`). Close with the G1, G2, G4 and G6 results. Sign off by declaring the phase closed.
 
 ## Agent prompt (paste into a fresh session with the files)
 
-> You are performing Phase 2 (Logical) of an AuditBot audit. Operating as Phase 2 per AuditBot PROTOCOL V0.0.1. Read the attached target files and the Phase 1 findings. Do not edit Phase 1. Work through L-1 to L-5 in order. For every finding give the exact location, a short quote, what you checked, what nearly failed, and your confidence state (VERIFIED, PROVISIONAL or UNKNOWN). Treat agreement with other agents, fluency and your own confidence as non-evidence. Do not look for exploits; that is a later phase. End with G1, G2, G4 and G6 results.
+> You are performing Phase 2 (Logical) of an AuditBot audit. Operating as Phase 2 per AuditBot PROTOCOL V0.0.2. Read the attached target files and the Phase 1 findings. Do not edit Phase 1. Work through L-1 to L-5 in order. For every finding give evidence_ref entries (file, lines, a short quote), what you checked, what nearly failed, and your confidence state (VERIFIED, PROVISIONAL or UNKNOWN). Treat agreement with other agents, fluency and your own confidence as non-evidence. Do not look for exploits; that is a later phase. End with G1, G2, G4 and G6 results.
