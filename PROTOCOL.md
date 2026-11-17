@@ -1,4 +1,4 @@
-# Protocol (V0.0.2 draft)
+# Protocol (V0.0.3 draft)
 
 Rulings on authority, source of truth and phase shape are **pending human ratification** (`OPEN_QUESTIONS.md` 1, 3, 4). The defaults below follow the draft; they are not decided.
 
@@ -21,7 +21,7 @@ An audit starts only when all of these hold. If one fails, stop and record why.
 | Verification | `verification.json` from `tools/verify_findings.py` | The script run completes |
 | Report | `templates/report.md` | Human reads it |
 
-Skipping a phase needs a written reason in the report. Each agent declares its phase before contributing: *"Operating as Phase N per AuditBot PROTOCOL V0.0.2."* An undeclared phase shift is a drift indicator.
+Skipping a phase needs a written reason in the report. Each agent declares its phase before contributing: *"Operating as Phase N per AuditBot PROTOCOL V0.0.3."* An undeclared phase shift is a drift indicator.
 
 ## Freeze and corrections
 
@@ -74,7 +74,7 @@ G5 is broader than LazarusForge's version, which covers cross-references only (`
 
 ## Citations
 
-Every phase 2 and phase 3 finding carries `evidence_ref` entries (file, lines, quote) or a `no_evidence_reason`. `tools/verify_findings.py` checks that the cited file is in the manifest and unchanged, the lines exist, and the quote is there. It does not judge whether the finding is right, and it cannot prove an agent examined anything. A finding that fails verification is listed in the report as unverified and cannot support a gate result.
+Every phase 2 and phase 3 finding carries `evidence_ref` entries (file, lines, quote) or a `no_evidence_reason`. `tools/verify_findings.py` checks that the cited file is in the manifest and unchanged, the lines exist, and the quote is there. It does not judge whether the finding is right, and it cannot prove an agent examined anything. A finding that fails verification is listed in the report as unverified and cannot support a gate result. A findings file with no findings exits 2 (nothing was verified) unless `--allow-empty` is passed, and the report is then marked `vacuous`.
 
 ## Report: integrate, do not reconcile
 

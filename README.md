@@ -1,4 +1,4 @@
-# AuditBot (draft V0.0.2)
+# AuditBot (draft V0.0.3)
 
 Audit logic extracted from LazarusForge and isolated. Nothing here designs, builds or governs anything except audits.
 

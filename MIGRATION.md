@@ -1,6 +1,6 @@
 # Migration from LazarusForge
 
-**Package:** AuditBot V0.0.2 draft. **Source:** LazarusForge 1.38 (head `62d831e5`, 2026-11-13). **Reviewed for this draft:** `Admin/Auditor_Protocols.md` (read in full for the sections below; headings only for the rest) and `Automation/README.md`. **Not yet reviewed:** the other audit documents, listed under "Untriaged".
+**Package:** AuditBot V0.0.3 draft. **Source:** LazarusForge 1.38 (head `62d831e5`, 2026-11-13). **Reviewed for this draft:** `Admin/Auditor_Protocols.md` (read in full for the sections below; headings only for the rest) and `Automation/README.md`. **Not yet reviewed:** the other audit documents, listed under "Untriaged".
 
 ## Where each piece went
 

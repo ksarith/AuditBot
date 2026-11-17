@@ -1,5 +1,15 @@
 # Changelog
 
+## V0.0.3 (draft)
+
+Source: the Co-Author seat's review of V0.0.2 (filed at the VibesSandbox root, 2026-11-16, outside this package), sent back at the human's "Please proceed with your lean." Same-lineage author and reviewer (T0-equivalent). Every item below was **R** (reproduced against the V0.0.2 code before changing it). Only `tools/verify_findings.py` changed in behaviour; the other edits are version strings.
+
+- **F-1 (major).** A quote made only of `...` or `…` verified against any line range. Now such a quote is `BAD_REF` ("quote must contain text outside ellipses").
+- **F-2 (minor).** A negative integer `lines` value verified through slice wraparound (`-4` cited a real line). Integer `lines` now follow the same bounds as the string form (>= 1); anything else is `BAD_REF`.
+- **F-3 (minor).** An empty findings list exited 0. It now exits 2 ("nothing was verified") unless `--allow-empty` is passed; with the flag the report carries `"vacuous": true` and the run prints `VACUOUS`. **Choice made without a ruling, open to his veto:** the review offered this or an exit-0-with-marker default; the fail-closed one was taken to match the stance of V0.0.2.
+- Tests added for each (the V0.0.2 suite passed with all three behaviours present). Version strings bumped to 0.0.3 in the tools, PROTOCOL, README, MIGRATION header, phase prompts and exposure-log template.
+- **Not changed:** the CHARTER/MIGRATION rule text (not yet compared against the LazarusForge sources), the profiles, `mechanical.py` behaviour, OPEN_QUESTIONS. MIGRATION's historical "added in V0.0.2" lines are left as written.
+
 ## V0.0.2 (draft)
 
 Source of each change: **R** = reproduced against the V0.0.1 code before changing it; **S** = suggestion from a review, adopted without a reproduction. Reviewers: Grok, ChatGPT.
