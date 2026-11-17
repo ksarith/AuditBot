@@ -97,6 +97,36 @@ class VerifyTests(unittest.TestCase):
         with self.assertRaises(vf.VerifyError):
             vf.verify(d, {"files": []}, [])
 
+    def test_ellipsis_only_quote_is_bad_ref(self):
+        d, m = setup()
+        for q in ("...", "\u2026", " ... \u2026 "):
+            r = vf.verify(d, m, [finding("e", [{"file": "A.md", "lines": "1-5", "quote": q}])])
+            self.assertEqual(status(r, "e"), "BAD_REF", q)
+        r = vf.verify(d, m, [finding("ok", [{"file": "A.md", "lines": "2-4", "quote": "pump ... idle"}])])
+        self.assertEqual(status(r, "ok"), "VERIFIED")
+
+    def test_nonpositive_integer_lines_are_bad_ref(self):
+        d, m = setup()
+        for n in (0, -1, -4, -5):
+            r = vf.verify(d, m, [finding("n", [{"file": "A.md", "lines": n, "quote": "Title"}])])
+            self.assertEqual(status(r, "n"), "BAD_REF", n)
+        r = vf.verify(d, m, [finding("one", [{"file": "A.md", "lines": 1, "quote": "Title"}])])
+        self.assertEqual(status(r, "one"), "VERIFIED")
+
+    def test_empty_findings_fail_closed_unless_allowed(self):
+        d, m = setup()
+        mp, fp, op = (os.path.join(d, n) for n in ("m.json", "f.json", "v.json"))
+        dump(mp, m)
+        dump(fp, {"findings": []})
+        self.assertEqual(quiet(vf.main, [d, "--manifest", mp, "--findings", fp, "--out", op]), 2)
+        self.assertEqual(quiet(vf.main, [d, "--manifest", mp, "--findings", fp, "--out", op, "--allow-empty"]), 0)
+        with open(op, encoding="utf-8") as f:
+            self.assertTrue(json.load(f)["vacuous"])
+        dump(fp, [finding("x", [{"file": "A.md", "lines": "2", "quote": "pump"}])])
+        self.assertEqual(quiet(vf.main, [d, "--manifest", mp, "--findings", fp, "--out", op]), 0)
+        with open(op, encoding="utf-8") as f:
+            self.assertFalse(json.load(f)["vacuous"])
+
 
 if __name__ == "__main__":
     unittest.main()
