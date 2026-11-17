@@ -4,7 +4,7 @@ Filled by the operator, not the agent. Attach it to the report.
 
 **Agent / model:** [name]
 **Session:** [fresh session, or identifier]
-**Declaration received:** [yes / no] ("Operating as Phase 3 per AuditBot PROTOCOL V0.0.2; no prior audit context")
+**Declaration received:** [yes / no] ("Operating as Phase 3 per AuditBot PROTOCOL V0.0.3; no prior audit context")
 
 ## Input set provided
 | Item | Name or hash |
