@@ -27,7 +27,7 @@ import os
 import re
 import sys
 
-VERSION = "0.0.2"
+VERSION = "0.0.3"
 LONG_QUOTE = 400
 OK = {"VERIFIED", "NO_EVIDENCE_EXPLAINED", "SKIPPED_PHASE1"}
 
@@ -50,7 +50,7 @@ def _load_json(path, what):
 
 def parse_lines(spec):
     if isinstance(spec, int) and not isinstance(spec, bool):
-        return spec, spec
+        return (spec, spec) if spec >= 1 else None
     if isinstance(spec, str):
         m = re.fullmatch(r"\s*(\d+)\s*(?:-\s*(\d+))?\s*", spec)
         if m:
@@ -61,14 +61,19 @@ def parse_lines(spec):
     return None
 
 
+def _segments(quote):
+    """Non-empty quote segments, split on '...' or the ellipsis character."""
+    return [g for g in (_norm(x) for x in re.split(r"\.\.\.|\u2026", quote)) if g]
+
+
 def _quote_in(text, quote):
-    """Quote segments split on '...' or the ellipsis character must appear in order."""
+    """Quote segments must appear in order. A quote with no segment never matches."""
+    segs = _segments(quote)
+    if not segs:
+        return False
     pos = 0
     text = _norm(text)
-    for seg in re.split(r"\.\.\.|\u2026", quote):
-        seg = _norm(seg)
-        if not seg:
-            continue
+    for seg in segs:
         i = text.find(seg, pos)
         if i < 0:
             return False
@@ -99,8 +104,8 @@ def verify_ref(root, by_path, ref):
     if rng is None:
         return "BAD_REF", "lines must be 'N' or 'N-M'"
     quote = ref["quote"]
-    if not isinstance(quote, str) or not _norm(quote):
-        return "BAD_REF", "quote must be a non-empty string"
+    if not isinstance(quote, str) or not _segments(quote):
+        return "BAD_REF", "quote must contain text outside ellipses"
     with open(full, encoding="utf-8", errors="replace") as f:
         lines = f.read().split("\n")
     a, b = rng
@@ -148,7 +153,7 @@ def verify(root, manifest, findings):
     coverage = {"files_in_manifest": len(by_path), "files_cited": len(cited),
                 "not_cited": sorted(set(by_path) - cited),
                 "note": "Coverage is a report, not proof of examination."}
-    return {"tool": "AuditBot verify_findings", "version": VERSION,
+    return {"tool": "AuditBot verify_findings", "version": VERSION, "vacuous": not results,
             "summary": summary, "coverage": coverage, "results": results}
 
 
@@ -158,6 +163,8 @@ def main(argv=None):
     ap.add_argument("--manifest", required=True)
     ap.add_argument("--findings", required=True)
     ap.add_argument("--out", default="verification.json")
+    ap.add_argument("--allow-empty", action="store_true",
+                    help="exit 0 on an empty findings list (the report is marked vacuous)")
     args = ap.parse_args(argv)
     try:
         if not os.path.isdir(args.target):
@@ -167,6 +174,8 @@ def main(argv=None):
         findings = data.get("findings") if isinstance(data, dict) else data
         if not isinstance(findings, list):
             raise VerifyError("findings file must be a list or an object with a 'findings' list")
+        if not findings and not args.allow_empty:
+            raise VerifyError("findings list is empty: nothing was verified (use --allow-empty to accept a phase that found nothing)")
         report = verify(os.path.abspath(args.target), manifest, findings)
     except VerifyError as e:
         print("error: %s" % e, file=sys.stderr)
@@ -175,6 +184,8 @@ def main(argv=None):
         json.dump(report, f, indent=2, sort_keys=True)
         f.write("\n")
     print("AuditBot verify_findings %s | %d findings" % (VERSION, len(report["results"])))
+    if report["vacuous"]:
+        print("VACUOUS: no findings were verified")
     print("summary: " + ", ".join("%s=%d" % kv for kv in sorted(report["summary"].items())))
     cov = report["coverage"]
     print("coverage: %d of %d manifest files cited (a report, not proof)" % (cov["files_cited"], cov["files_in_manifest"]))

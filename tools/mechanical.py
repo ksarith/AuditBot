@@ -24,7 +24,7 @@ import os
 import re
 import sys
 
-VERSION = "0.0.2"
+VERSION = "0.0.3"
 SEVERITIES = ("critical", "major", "minor", "info")
 
 LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
